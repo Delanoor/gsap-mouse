@@ -1,0 +1,62 @@
+.cursor-inner,
+.cursor-outline {
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.cursor-inner {
+  width: 8px;
+  height: 8px;
+  background-color: #dc5656;
+}
+.cursor-outline {
+  width: 40px;
+  height: 40px;
+  background: rgba(229, 128, 128, 0.5);
+}
+
+.cursor {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 10;
+  contain: layout style size;
+  pointer-events: none;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -24px;
+    left: -24px;
+    display: block;
+    width: 48px;
+    height: 48px;
+    transform: scale(0.2);
+    background: black;
+    border-radius: 50%;
+  }
+
+  .cursor-media {
+    display: block;
+    height: 350px;
+    width: 350px;
+    overflow: hidden;
+    border-radius: 100%;
+    transform: scale(0);
+    margin: -175px 0 0 -175px;
+    position: relative;
+
+    video {
+      height: 350px;
+      left: 50%;
+      transform: translateX(-50%);
+      position: absolute;
+    }
+  }
+}
