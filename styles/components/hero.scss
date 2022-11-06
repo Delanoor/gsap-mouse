@@ -70,7 +70,8 @@
               position: relative;
               overflow: hidden;
               text-decoration: none;
-              color: transparent;
+              //   color: transparent;
+              color: black;
               transition: color 0.3s, -webkit-text-stroke 0.3s;
               -webkit-text-stroke: 1px #000;
               &:hover {
