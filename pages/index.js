@@ -3,11 +3,14 @@ import Cursor from "../components/Cursor";
 import gsap from "gsap";
 import { useState } from "react";
 import Link from "next/link";
+import useMousePosition from "../hooks/useMousePosition";
+import { useCallback } from "react";
 
 export default function Home() {
   const [videoPlaying, setVideoPlaying] = useState();
 
   let videoRefs = useRef([]);
+  const cursorRef = useRef(null);
   const addVideoRef = (ref) => {
     if (ref) {
       videoRefs.current.push(ref);
@@ -16,19 +19,25 @@ export default function Home() {
 
   let mediaRef = useRef(null);
 
+  const { x, y } = useMousePosition();
+
+  const onMove = useCallback(() => {
+    cursorRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+  }, []);
+
   useEffect(() => {
-    // mediaRef.current.style.transform = `translate3d(${innerWidth / 2}px, ${
-    //   innerHeight / 2
-    // }px, 0)`;
+    cursorRef.current.style.transform = `translate3d(${innerWidth / 2}px, ${
+      innerHeight / 2
+    }px, 0)`;
     // videoRefs.current.forEach((ref) => (ref.style.transform = "scale(0)"));
-    const onMove = ({ clientX, clientY }) => {
-      mediaRef.current.style.transform = `translate3d(${clientX}px, ${clientY}px, 0)`;
-      // cursorRefs.current.forEach((ref) => ref.moveTo(clientX, clientY));
-    };
+    // const onMove = ({ clientX, clientY }) => {
+    //   mediaRef.current.style.transform = `translate3d(${clientX}px, ${clientY}px, 0)`;
+    // cursorRefs.current.forEach((ref) => ref.moveTo(clientX, clientY));
+    // };
 
-    window.addEventListener("pointermove", onMove);
+    // window.addEventListener("pointermove", onMove);
 
-    return () => window.removeEventListener("pointermove", onMove);
+    // return () => window.removeEventListener("pointermove", onMove);
   }, []);
 
   // useEffect(() => {
@@ -39,7 +48,10 @@ export default function Home() {
 
   const mouseEnter = (index) => {
     // mediaRef.style.transform = "scale(100%)";
+    setVideoPlaying(index);
     document.querySelector(".cursor").classList.add("media-blend");
+    // document.querySelector(".circle").classList.add("media-blend");
+
     gsap.fromTo(
       videoRefs.current[index],
       {
@@ -53,7 +65,10 @@ export default function Home() {
     );
   };
   const mouseLeave = (index) => {
+    setVideoPlaying(null);
     document.querySelector(".cursor").classList.remove("media-blend");
+    // document.querySelector(".circle").classList.remove("media-blend");
+
     gsap.fromTo(
       videoRefs.current[index],
       {
@@ -130,9 +145,13 @@ export default function Home() {
       </section>
 
       {/* Cursor */}
-      <Cursor />
+      {/* <Cursor /> */}
 
-      <div className="cursor">
+      <div
+        ref={cursorRef}
+        className="cursor"
+        style={{ transform: `translate3d(${x}px, ${y}px, 0)` }}
+      >
         <div className="cursor-media" ref={mediaRef}>
           <video
             ref={addVideoRef}
