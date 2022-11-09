@@ -5,11 +5,13 @@ import { useState } from "react";
 import Link from "next/link";
 import useMousePosition from "../hooks/useMousePosition";
 import { useCallback } from "react";
+import { useWindowEvent } from "../hooks/useWindowEvent";
 
 export default function Home() {
   const [videoPlaying, setVideoPlaying] = useState();
 
   let videoRefs = useRef([]);
+
   const cursorRef = useRef(null);
   const addVideoRef = (ref) => {
     if (ref) {
@@ -19,38 +21,33 @@ export default function Home() {
 
   let mediaRef = useRef(null);
 
-  const { x, y } = useMousePosition();
+  // const { x, y } = useMousePosition();
 
-  const onMove = useCallback(() => {
-    cursorRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+  const onMove = useCallback(({ clientX, clientY }) => {
+    cursorRef.current.style.transform = `translate3d(${clientX}px, ${clientY}px, 0)`;
+  }, []);
+
+  const onDown = useCallback(() => {
+    cursorRef.current.style.setProperty("--cursorScale", 1.3);
+  }, []);
+  const onUp = useCallback(() => {
+    cursorRef.current.style.setProperty("--cursorScale", 0.3);
   }, []);
 
   useEffect(() => {
     cursorRef.current.style.transform = `translate3d(${innerWidth / 2}px, ${
       innerHeight / 2
     }px, 0)`;
-    // videoRefs.current.forEach((ref) => (ref.style.transform = "scale(0)"));
-    // const onMove = ({ clientX, clientY }) => {
-    //   mediaRef.current.style.transform = `translate3d(${clientX}px, ${clientY}px, 0)`;
-    // cursorRefs.current.forEach((ref) => ref.moveTo(clientX, clientY));
-    // };
-
-    // window.addEventListener("pointermove", onMove);
-
-    // return () => window.removeEventListener("pointermove", onMove);
+    // console.log(cursorRef.current.getBoundingClientRect());
+    console.log(window.getComputedStyle(cursorRef.current, ":before"));
   }, []);
-
-  // useEffect(() => {
-  //   if (mediaRef.current && videoPlaying) {
-  //     mediaRef.current.children[videoPlaying].style.display = "block";
-  //   }
-  // }, [videoPlaying]);
+  useWindowEvent("pointermove", onMove);
+  useWindowEvent("pointerdown", onDown);
+  useWindowEvent("pointerup", onUp);
 
   const mouseEnter = (index) => {
-    // mediaRef.style.transform = "scale(100%)";
     setVideoPlaying(index);
     document.querySelector(".cursor").classList.add("media-blend");
-    // document.querySelector(".circle").classList.add("media-blend");
 
     gsap.fromTo(
       videoRefs.current[index],
@@ -64,20 +61,22 @@ export default function Home() {
       }
     );
   };
+
   const mouseLeave = (index) => {
     setVideoPlaying(null);
     document.querySelector(".cursor").classList.remove("media-blend");
-    // document.querySelector(".circle").classList.remove("media-blend");
+    cursorRef.current.style.setProperty("--cursorScale", 0.3);
 
     gsap.fromTo(
       videoRefs.current[index],
       {
-        opacity: 1,
-        scale: 1,
+        // opacity: 1,
+        scale: 2.4,
       },
       {
+        duration: 0.4,
         scale: 0,
-        opacity: 0,
+        // opacity: 0.7,
       }
     );
   };
@@ -98,33 +97,30 @@ export default function Home() {
                   <h1>We make it happen</h1>
                 </div>
                 <div className="hero-inner-links">
-                  <div className="hero-inner-link-item">
-                    <div className="hero-inner-link-item-padding"></div>{" "}
-                    <Link
-                      href={"/"}
-                      onMouseEnter={() => mouseEnter(0)}
-                      onMouseLeave={() => mouseLeave(0)}
-                    >
+                  <div
+                    className="hero-inner-link-item"
+                    onMouseEnter={() => mouseEnter(0)}
+                    onMouseLeave={() => mouseLeave(0)}
+                  >
+                    <Link href={"/"}>
                       <span>Websites</span>
                     </Link>
                   </div>
-                  <div className="hero-inner-link-item">
-                    <div className="hero-inner-link-item-padding"></div>{" "}
-                    <Link
-                      href={"/"}
-                      onMouseEnter={() => mouseEnter(1)}
-                      onMouseLeave={() => mouseLeave(1)}
-                    >
+                  <div
+                    className="hero-inner-link-item"
+                    onMouseEnter={() => mouseEnter(1)}
+                    onMouseLeave={() => mouseLeave(1)}
+                  >
+                    <Link href={"/"}>
                       <span>Apps</span>
                     </Link>
                   </div>
-                  <div className="hero-inner-link-item">
-                    <div className="hero-inner-link-item-padding"></div>{" "}
-                    <Link
-                      href={"/"}
-                      onMouseEnter={() => mouseEnter(2)}
-                      onMouseLeave={() => mouseLeave(2)}
-                    >
+                  <div
+                    className="hero-inner-link-item"
+                    onMouseEnter={() => mouseEnter(2)}
+                    onMouseLeave={() => mouseLeave(2)}
+                  >
+                    <Link href={"/"}>
                       <span>Branding</span>
                     </Link>
                   </div>
@@ -150,7 +146,7 @@ export default function Home() {
       <div
         ref={cursorRef}
         className="cursor"
-        style={{ transform: `translate3d(${x}px, ${y}px, 0)` }}
+        // style={{ transform: `translate3d(${x}px, ${y}px, 0)` }}
       >
         <div className="cursor-media" ref={mediaRef}>
           <video

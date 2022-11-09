@@ -31,16 +31,9 @@ export default function Cursor() {
     return () => window.removeEventListener("pointermove", onMove);
   }, []);
 
-  const addCursorRefs = (ref) => {
-    if (ref) {
-      cursorRefs.current.push(ref);
-    }
-  };
-
   return (
     <>
       <div ref={cursorInner} className="circle"></div>
-      {/* <Circle ref={addCursorRefs} delay={0} className="cursor-outline"></Circle> */}
     </>
   );
 }

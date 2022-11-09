@@ -1,19 +1,29 @@
-.circle {
-  pointer-events: none;
+.cursor {
   position: fixed;
   top: 0px;
   left: 0px;
-  //   z-index: 10;
+  z-index: 10;
   contain: layout style size;
+  pointer-events: none;
+  height: 350px;
+  width: 350px;
+
+  //   top: -24px;
+  //   left: -24px;
+  //   display: block;
+  //   width: 48px;
+  //   height: 48px;
+  //   background: #000;
+  //   mix-blend-mode: difference;
+  border-radius: 100%;
 
   &.media-blend {
     z-index: 100;
     mix-blend-mode: exclusion;
-    filter: invert(1);
 
-    // .cursor-media {
-    //   filter: invert(1);
-    // }
+    .cursor-media {
+      filter: invert(1);
+    }
   }
   &:before {
     content: "";
@@ -23,69 +33,44 @@
     display: block;
     width: 48px;
     height: 48px;
-    // transform: scale(0.2);
-    mix-blend-mode: difference;
+
+    border-radius: 100%;
     background: #000;
-    border-radius: 50%;
+    mix-blend-mode: difference;
+
+    scale: var(--cursorScale);
+    transition: scale 0.3s;
   }
-}
-
-.cursor-outline {
-  background: rgba(229, 128, 128, 0.5);
-}
-
-.cursor {
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  //   z-index: 10;
-  contain: layout style size;
-  pointer-events: none;
-
-  top: -24px;
-  left: -24px;
-  display: block;
-  width: 48px;
-  height: 48px;
-  background: #fff;
-  mix-blend-mode: difference;
-  border-radius: 50%;
-
-  &.media-blend {
-    z-index: 100;
-    mix-blend-mode: exclusion;
-    .cursor-media {
-      filter: invert(1);
-    }
-  }
-  //   &:before {
-  //     content: "";
-  //     position: absolute;
-  //     top: -24px;
-  //     left: -24px;
-  //     display: block;
-  //     width: 48px;
-  //     height: 48px;
-  //     background: #000;
-  //     mix-blend-mode: difference;
-  //     border-radius: 50%;
-  //   }
   .cursor-media {
     display: block;
-    height: 350px;
-    width: 350px;
+
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
     overflow: hidden;
     border-radius: 100%;
-    // transform: scale(0);
-    margin: -175px 0 0 -175px;
-    position: relative;
+
+    // margin: -175px 0 0 -175px;
+    transform: translate(-50%, -50%);
+    position: absolute;
 
     video {
-      height: 350px;
-      //   left: 50%;
-      transform: translateX(-50%);
       position: absolute;
+      //   height: 350px;
+      //   left: 50%;
+
+      //   height: 350px;
+      //   width: 350px;
+      top: 0;
+      left: 0;
+      border-radius: 100%;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
       transform: scale(0);
+
+      //   transform: translateX(-50%);
     }
   }
 }
