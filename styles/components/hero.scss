@@ -61,39 +61,43 @@
             margin: 2.5rem 0;
             border: 2px solid red;
 
-            a {
-              width: 100%;
-              padding: 3em 10rem;
-              display: inline-block;
-              position: relative;
+            .link-padding {
+              border: 2px solid blue;
+              margin: 1rem 2rem;
+              a {
+                width: 100%;
+                padding: 3em 10rem;
+                display: inline-block;
+                position: relative;
 
-              //   overflow: hidden;
-              text-decoration: none;
-              //   color: transparent;
-              color: black;
-              transition: color 0.3s, -webkit-text-stroke 0.3s;
-              -webkit-text-stroke: 1px #000;
-              &:hover {
+                //   overflow: hidden;
+                text-decoration: none;
+                //   color: transparent;
                 color: black;
-                -webkit-text-stroke: 1px transparent;
+                transition: color 0.3s, -webkit-text-stroke 0.3s;
+                -webkit-text-stroke: 1px #000;
+                &:hover {
+                  color: black;
+                  -webkit-text-stroke: 1px transparent;
+                }
+                span {
+                  line-height: 1.1;
+                  font-weight: 700;
+                  text-shadow: none;
+                  font-size: 5.8vw;
+                }
               }
-              span {
-                line-height: 1.1;
-                font-weight: 700;
-                text-shadow: none;
-                font-size: 5.8vw;
-              }
+              // &:first-child {
+              //   a {
+              //     padding-left: 0;
+              //   }
+              // }
+              // &:last-child {
+              //   a {
+              //     padding-right: 0;
+              //   }
+              // }
             }
-            // &:first-child {
-            //   a {
-            //     padding-left: 0;
-            //   }
-            // }
-            // &:last-child {
-            //   a {
-            //     padding-right: 0;
-            //   }
-            // }
           }
         }
       }

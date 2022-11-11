@@ -50,7 +50,9 @@
     width: 100%;
     overflow: hidden;
     border-radius: 100%;
+    // border: red 3px solid;
 
+    scale: var(--cursorScale);
     // margin: -175px 0 0 -175px;
     transform: translate(-50%, -50%);
     position: absolute;

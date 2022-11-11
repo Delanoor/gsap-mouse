@@ -46,7 +46,6 @@ export default function Home() {
   useWindowEvent("pointerup", onUp);
 
   const mouseEnter = (index) => {
-    setVideoPlaying(index);
     document.querySelector(".cursor").classList.add("media-blend");
 
     gsap.fromTo(
@@ -60,6 +59,21 @@ export default function Home() {
         scale: 1,
       }
     );
+  };
+
+  const enterBigger = (index) => {
+    console.log("link");
+    // mediaRef.current.style.setProperty("--cursorScale", 1.3);
+    gsap.to(mediaRef.current, {
+      scale: 1.3,
+    });
+  };
+  const exitBigger = (index) => {
+    console.log("link");
+    // mediaRef.current.style.setProperty("--cursorScale", 1.3);
+    gsap.to(mediaRef.current, {
+      scale: 1,
+    });
   };
 
   const mouseLeave = (index) => {
@@ -102,9 +116,15 @@ export default function Home() {
                     onMouseEnter={() => mouseEnter(0)}
                     onMouseLeave={() => mouseLeave(0)}
                   >
-                    <Link href={"/"}>
-                      <span>Websites</span>
-                    </Link>
+                    <div
+                      className="link-padding"
+                      onPointerEnter={() => enterBigger()}
+                      onPointerLeave={() => exitBigger()}
+                    >
+                      <Link href={"/"}>
+                        <span>Websites</span>
+                      </Link>
+                    </div>
                   </div>
                   <div
                     className="hero-inner-link-item"
